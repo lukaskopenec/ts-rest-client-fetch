@@ -2,8 +2,8 @@
   "name": "ts-rest-client-fetch",
   "version": "1.0.1",
   "description": "ts-rest-client backend using fetch API",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],
