@@ -1,5 +1,7 @@
 # ts-rest-client-fetch
 
+[![npm version](https://badge.fury.io/js/ts-rest-client.svg)](https://badge.fury.io/js/ts-rest-client)
+
 Backend for [ts-rest-client](https://www.npmjs.com/package/ts-rest-client) library using [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
 
 ## Installation
