@@ -1,5 +1,5 @@
 {
-  "name": "ts-rest-client",
+  "name": "ts-rest-client-fetch",
   "version": "1.0.0",
   "description": "ts-rest-client backend using fetch API",
   "main": "index.js",
