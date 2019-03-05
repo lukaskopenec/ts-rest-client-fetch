@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/ts-rest-client.svg)](https://badge.fury.io/js/ts-rest-client)
+[![npm version](https://badge.fury.io/js/ts-rest-client-fetch.svg)](https://badge.fury.io/js/ts-rest-client-fetch)
 
 # ts-rest-client-fetch
 
