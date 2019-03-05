@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ts-rest-client backend using fetch API",
   "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "lib /**/*"
   ],
@@ -13,10 +14,7 @@
     "build": "tsc",
     "lint": "tslint --project tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "prepublishOnly": "npm test && npm run lint"
   },
   "repository": {
     "type": "git",
