@@ -60,7 +60,7 @@ export class FetchHttpService implements HttpService {
   getResponseBody(response: Response): Promise<any> {
     const contentType = response.headers.get('Content-Type');
 
-    if (contentType === 'application/json') {
+    if (contentType.includes('application/json')) {
       return response.json();
     }
 

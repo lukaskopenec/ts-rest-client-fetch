@@ -16,7 +16,9 @@ describe('FetchHttpService', () => {
   });
 
   it('Gets data using fetch', done => {
-    customGlobal.fetch.mockResponseOnce(JSON.stringify({ data: '12345' }), { headers: { 'Content-Type': 'application/json' } });
+    customGlobal.fetch.mockResponseOnce(
+      JSON.stringify({ data: '12345' }), { headers: { 'Content-Type': 'application/json; charset=utf-8' } },
+    );
 
     service.request(new HttpRequestOptions('http://example.api.com/get', 'GET')).subscribe(data => {
       expect(data).toEqual({ data: '12345' });
