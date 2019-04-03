@@ -59,10 +59,13 @@ export class FetchHttpService implements HttpService {
 
   getResponseBody(response: Response): Promise<any> {
     const contentType = response.headers.get('Content-Type');
-    const contentLength = +response.headers.get('Content-Length');
+
+    if (response.status === 204) {
+      return null;
+    }
 
     if (contentType.includes('application/json')) {
-      return contentLength > 0 ? response.json() : null;
+      return response.json();
     }
 
     return response.text();
