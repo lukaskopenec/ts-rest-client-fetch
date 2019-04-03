@@ -16,8 +16,9 @@ describe('FetchHttpService', () => {
   });
 
   it('Gets data using fetch', done => {
+    const body = JSON.stringify({ data: '12345' });
     customGlobal.fetch.mockResponseOnce(
-      JSON.stringify({ data: '12345' }), { headers: { 'Content-Type': 'application/json; charset=utf-8' } },
+      body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': body.length.toString() } },
     );
 
     service.request(new HttpRequestOptions('http://example.api.com/get', 'GET')).subscribe(data => {
@@ -29,7 +30,8 @@ describe('FetchHttpService', () => {
   });
 
   it('Handles query string correctly', done => {
-    customGlobal.fetch.mockResponseOnce(JSON.stringify({ data: '12345' }), { headers: { 'Content-Type': 'application/json' } });
+    const body = JSON.stringify({ data: '12345' });
+    customGlobal.fetch.mockResponseOnce(body, { headers: { 'Content-Type': 'application/json', 'Content-Length': body.length.toString() } });
 
     service.request(
       new HttpRequestOptions(
@@ -44,7 +46,8 @@ describe('FetchHttpService', () => {
   });
 
   it('Headers are sent correctly', done => {
-    customGlobal.fetch.mockResponseOnce(JSON.stringify({ data: '12345' }), { headers: { 'Content-Type': 'application/json' } });
+    const body = JSON.stringify({ data: '12345' });
+    customGlobal.fetch.mockResponseOnce(body, { headers: { 'Content-Type': 'application/json', 'Content-Length': body.length.toString() } });
     service.request(
       new HttpRequestOptions(
         'http://example.api.com/get?myValue=1', 'GET', null, new NamedValues({ 'Test': '12345', 'My-Addition': '1 + 6 = 7' }),
@@ -62,7 +65,8 @@ describe('FetchHttpService', () => {
   });
 
   it('Handles text response body', done => {
-    customGlobal.fetch.mockResponseOnce('You are doomed', { headers: { 'Content-Type': 'text/plain' } });
+    const body = 'You are doomed';
+    customGlobal.fetch.mockResponseOnce(body, { headers: { 'Content-Type': 'text/plain', 'Content-Length': body.length.toString() } });
     service.request(
       new HttpRequestOptions('http://example.api.com/get', 'GET'),
     ).subscribe(data => {
@@ -73,9 +77,10 @@ describe('FetchHttpService', () => {
   });
 
   it('Handles error response', done => {
+    const body = JSON.stringify({ message: 'You are doomed' });
+    const headers = { 'content-type': 'application/json', 'custom': 'Test', 'Content-Length': body.length.toString() };
     customGlobal.fetch.mockResponseOnce(
-      JSON.stringify({ message: 'You are doomed' }),
-      { headers: { 'content-type': 'application/json', 'custom': 'Test' }, status: 400, statusText: 'Shit happens' },
+      body, { headers, status: 400, statusText: 'Shit happens' },
     );
     service.request(
       new HttpRequestOptions('http://example.api.com/get', 'GET'),
@@ -85,7 +90,7 @@ describe('FetchHttpService', () => {
         expect(err instanceof HttpErrorResponse).toBeTruthy();
         expect(err.status).toBe(400);
         expect(err.statusText).toBe('Shit happens');
-        expect(err.headers).toEqual({ 'content-type': 'application/json', 'custom': 'Test' });
+        expect(err.headers).toEqual({ 'content-type': 'application/json', 'custom': 'Test', 'content-length': body.length.toString() });
         expect(err.error).toEqual({ message: 'You are doomed' });
         done();
       },
