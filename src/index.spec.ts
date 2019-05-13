@@ -40,7 +40,7 @@ describe('FetchHttpService', () => {
     ).subscribe(data => {
       expect(data).toEqual({ data: '12345' });
       expect(customGlobal.fetch.mock.calls.length).toEqual(1);
-      expect(customGlobal.fetch.mock.calls[0][0]).toEqual('http://example.api.com/get?myValue=1&Test=12345&My-Addition=1%20+%206%20=%207');
+      expect(customGlobal.fetch.mock.calls[0][0]).toEqual('http://example.api.com/get?myValue=1&Test=12345&My-Addition=1%20%2B%206%20%3D%207');
       done();
     });
   });
@@ -62,6 +62,26 @@ describe('FetchHttpService', () => {
       expect(initObject.headers.get('My-Addition')).toBe('1 + 6 = 7');
       done();
     });
+  });
+
+  it('Request interceptor is called before request is sent', done => {
+    const body = JSON.stringify({ data: '12345' });
+    customGlobal.fetch.mockResponseOnce(
+      body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': body.length.toString() } },
+    );
+    service.setRequestInterceptor(options => {
+      options.headers.set('Authorization', 'Bearer MyToken');
+      return options;
+    });
+
+    service.request(new HttpRequestOptions('http://example.api.com/get', 'GET')).subscribe(() => {
+      const initObject = customGlobal.fetch.mock.calls[0][1];
+
+      expect(initObject.headers.get('Authorization')).toBe('Bearer MyToken');
+      done();
+    });
+
+    service.setRequestInterceptor();
   });
 
   it('Handles text response body', done => {

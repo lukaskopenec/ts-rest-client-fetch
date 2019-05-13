@@ -1,6 +1,7 @@
 import { Observable, Observer } from 'rxjs';
 import {
   HttpErrorResponse,
+  HttpRequestInterceptor,
   HttpRequestOptions,
   HttpService,
   StringMap,
@@ -12,8 +13,13 @@ export class FetchHttpService implements HttpService {
   }
 
   private requestInit: RequestInit;
+  private requestInterceptor: HttpRequestInterceptor;
 
   request(options: HttpRequestOptions): Observable<any> {
+    if (this.requestInterceptor) {
+      options = this.requestInterceptor(options);
+    }
+
     return Observable.create(async (observer: Observer<any>) => {
       const requestUrl = options.getUrl();
 
@@ -55,6 +61,10 @@ export class FetchHttpService implements HttpService {
         observer.error(new HttpErrorResponse({ error, url: requestUrl }));
       }
     });
+  }
+
+  setRequestInterceptor(interceptor?: HttpRequestInterceptor) {
+    this.requestInterceptor = interceptor;
   }
 
   getResponseBody(response: Response): Promise<any> {
