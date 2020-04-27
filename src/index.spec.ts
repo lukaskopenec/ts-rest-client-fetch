@@ -57,9 +57,10 @@ describe('FetchHttpService', () => {
       expect(customGlobal.fetch.mock.calls.length).toEqual(1);
 
       const initObject = customGlobal.fetch.mock.calls[0][1];
+      const headers = initObject.headers as Headers;
 
-      expect(initObject.headers.get('Test')).toBe('12345');
-      expect(initObject.headers.get('My-Addition')).toBe('1 + 6 = 7');
+      expect(headers.get('Test')).toBe('12345');
+      expect(headers.get('My-Addition')).toBe('1 + 6 = 7');
       done();
     });
   });
@@ -76,8 +77,9 @@ describe('FetchHttpService', () => {
 
     service.request(new HttpRequestOptions('http://example.api.com/get', 'GET')).subscribe(() => {
       const initObject = customGlobal.fetch.mock.calls[0][1];
+      const headers = initObject.headers as Headers;
 
-      expect(initObject.headers.get('Authorization')).toBe('Bearer MyToken');
+      expect(headers.get('Authorization')).toBe('Bearer MyToken');
       done();
     });
 
