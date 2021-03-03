@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpRequestOptions, NamedValues } from 'ts-rest-clie
 
 import { FetchHttpService } from '.';
 
-const customGlobal: GlobalWithFetchMock = global as GlobalWithFetchMock;
+const customGlobal: GlobalWithFetchMock = global as any;
 // tslint:disable-next-line:no-var-requires
 customGlobal.fetch = require('jest-fetch-mock');
 customGlobal.fetchMock = customGlobal.fetch;
